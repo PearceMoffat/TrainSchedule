@@ -13,9 +13,13 @@ var database = firebase.database();
 
 var trains = database.ref("/trains");
 
+// Create a reference for whenever the trains list is updated on firebase
 database.ref("/trains").on("value", function(snapshot) {
 
+	// Empty the train list to be refilled
 	$("#trainData").empty();
+
+	// Run this code for each child in the train list
 	snapshot.forEach(function(snapshotChild) {
 
 		var firstTrainTime = snapshotChild.val().firstTrainTime;
@@ -40,6 +44,7 @@ database.ref("/trains").on("value", function(snapshot) {
 	});
 });
 
+// Add a train's information to the table
 function updateTable(val){
 	$("#trainData").append("<tr><td>" + 
 		val.name + "</td><td>" + val.destination + "</td><td>" + 
@@ -47,15 +52,18 @@ function updateTable(val){
 		val.minutesAway + "</td>");
 }
 
+// When the submit button is clicked...
 $("#btnSubmit").on("click", function(event) {
 
 	event.preventDefault();
 	
+	// Set all variables to what the user input
 	var name = $("#name").val().trim();
 	var destination = $("#destination").val().trim();
 	var frequency = $("#frequency").val().trim();
 	var firstTrainTime = $("#firstTrain").val().trim();
 
+	// Push the data to the trains list on firebase
 	database.ref("/trains").push({
 		name: name,
 		destination: destination,
@@ -63,5 +71,6 @@ $("#btnSubmit").on("click", function(event) {
 		firstTrainTime: firstTrainTime
 	});
 
+	// Clear the input fields
 	$("#name, #destination, #firstTrain, #frequency").val("");
 });

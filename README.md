@@ -1,1 +1,1 @@
-# TrainSchedule
+Train schedule program, displays information on user-entered trains that are stored on firebase. When the program starts or when a train is added, the schedule is updated and displayed. Allows a user to enter information about a train to add it to the schedule.
